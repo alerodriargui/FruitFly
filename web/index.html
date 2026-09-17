@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FruitFly · Atlas del cerebro</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header><div class="brand"><span class="mark">✳</span> FruitFly <span class="divider">/</span> <span class="muted">Atlas del cerebro</span></div><span class="badge">FLYWIRE v783 <i></i> LOCAL</span></header>
+<main>
+<aside>
+<div class="eyebrow">DROSOPHILA MELANOGASTER</div><h1>Un cerebro.<br>Miles de señales.</h1>
+<p class="intro">Explora las posiciones de sus neuronas y observa la respuesta simulada al azúcar.</p>
+<div class="stats"><div><strong id="total">—</strong><span>neuronas del modelo</span></div><div><strong id="active">—</strong><span>activas en la prueba</span></div></div>
+<section><h2>Explorar</h2><label for="region">Grupo neuronal</label><select id="region"><option value="all">Todos los grupos</option></select>
+<label for="mode">Vista</label><select id="mode"><option value="anatomy">Anatomía + actividad</option><option value="activity">Solo neuronas activas</option><option value="stimulus">Neuronas estimuladas</option></select>
+<label class="check"><input type="checkbox" id="edges"> Conexiones entre neuronas activas</label>
+<label class="check"><input type="checkbox" id="rotate"> Girar automáticamente</label>
+<div class="buttons"><button id="reset">Restablecer vista</button><button id="side">Vista lateral</button></div></section>
+<section><h2>Inspeccionar una neurona</h2><form id="search"><input id="neuronId" aria-label="ID FlyWire" placeholder="ID FlyWire de 18 dígitos" inputmode="numeric"><button aria-label="Buscar neurona">→</button></form><div id="detail" aria-live="polite">Haz clic en un punto para ver su identidad y sus impulsos.</div></section>
+<details><summary>Qué estás viendo</summary><p id="coverage"></p><p>Cada punto sitúa una neurona: soma cuando existe, o punto de referencia anatómico. No representa sus ramificaciones. Las líneas son conexiones del modelo entre puntos, no trayectorias de axones.</p><p>Se reproduce una prueba ya calculada, ralentizada. El brillo persiste 5 ms simulados para hacerlo visible. No es una simulación en directo.</p><a href="https://github.com/flyconnectome/flywire_annotations" target="_blank" rel="noreferrer">Anatomía: FlyWire / Schlegel et al. y colaboradores ↗</a><br><a href="https://github.com/eonsystemspbc/fly-brain" target="_blank" rel="noreferrer">Modelo: Eon Systems / Shiu et al. ↗</a></details>
+</aside>
+<div class="stage"><canvas id="brain" aria-label="Cerebro interactivo en tres dimensiones"></canvas><div class="stage-top"><span class="pill">ATLAS 3D · POSICIONES ANATÓMICAS</span><span id="visible" class="muted"></span></div>
+<div id="loading">Cargando el cerebro…</div><div class="legend"><span><i style="background:#6bc9df"></i>Contexto anatómico</span><span><i style="background:#ffb76b"></i>Activa en la prueba</span><span><i style="background:#ffedb7"></i>Impulso reciente</span><span><i style="background:#f88bac"></i>Estímulo de azúcar</span></div>
+<div class="hint">Arrastra para girar · Rueda para acercar · Clic para inspeccionar</div>
+<div class="timeline"><div class="timeline-head"><div><span class="eyebrow">EXPERIMENTO REGISTRADO</span><h2>Respuesta al azúcar <span>21 neuronas · 200 Hz</span></h2></div><span id="clock">0.0 ms</span></div>
+<div class="transport"><button id="play">▶ Reproducir</button><input id="time" aria-label="Tiempo simulado" type="range" min="0" max="100" step="0.1" value="0"><select id="condition" aria-label="Condición"><option value="sugar">Azúcar</option><option value="rest">Reposo</option></select></div><div class="timeline-foot"><span id="events">—</span><span>100 ms simulados ≈ 10 s de reproducción</span></div></div>
+</div></main>
+<script src="brain-data.js"></script><script src="app.js"></script></body></html>

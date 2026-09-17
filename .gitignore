@@ -1,0 +1,7 @@
+.tools/
+.venv/
+vendor/
+results/
+__pycache__/
+data/
+web/brain-data.js
