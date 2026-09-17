@@ -5,3 +5,4 @@ results/
 __pycache__/
 data/
 web/brain-data.js
+web/habitat/wasm/
