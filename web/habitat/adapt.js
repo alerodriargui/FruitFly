@@ -43,6 +43,8 @@ export function attachHabitat(game, setSpeed) {
     contactFriction(){return Array.from(g.model.pair_friction.slice(0,5));}
   };
   window.habitat=api;
+  // Keep the documented CPG mode; upstream level-switch keys are not exposed here.
+  addEventListener('keydown',e=>{if(['1','2','3','i','o','p',' '].includes(e.key.toLowerCase())){e.preventDefault();e.stopImmediatePropagation();if(e.key===' ')api.reset();}},true);
   addEventListener('keydown',e=>{if(['w','a','s','d','q','arrowup','arrowdown','arrowleft','arrowright'].includes(e.key.toLowerCase()))automatic=false;});
   centerCamera();begin();
 }

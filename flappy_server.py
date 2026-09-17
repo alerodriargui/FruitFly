@@ -2,6 +2,7 @@
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import argparse
 import urllib.request
 import webbrowser
 
@@ -23,15 +24,19 @@ class Handler(SimpleHTTPRequestHandler):
         pass
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--page', choices=['flappy', 'habitat'], default='flappy')
+    args = parser.parse_args()
+    url = f'http://127.0.0.1:{PORT}/{args.page}.html'
     try:
         server = ThreadingHTTPServer(('127.0.0.1', PORT), partial(Handler, directory=str(ROOT / 'web')))
     except OSError:
         with urllib.request.urlopen(f'http://127.0.0.1:{PORT}/fruitfly-health', timeout=3) as response:
             if response.read() != b'fruitfly-flappy-v1':
                 raise RuntimeError(f'Port {PORT} is occupied by another application')
-        webbrowser.open(URL)
+        webbrowser.open(url)
         return
-    webbrowser.open(URL)
+    webbrowser.open(url)
     server.serve_forever()
 
 if __name__ == '__main__':

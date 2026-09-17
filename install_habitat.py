@@ -15,7 +15,9 @@ def get_file(entry):
     path = DEST / entry['path']
     path.parent.mkdir(parents=True, exist_ok=True)
     url = f'https://raw.githubusercontent.com/NeLy-EPFL/flygym/{COMMIT}/{entry["path"]}'
-    if not path.exists():
+    existing = path.read_bytes() if path.exists() else None
+    current_hash = hashlib.sha1(f'blob {len(existing)}\0'.encode() + existing).hexdigest() if existing is not None else None
+    if current_hash != entry['sha']:
         subprocess.run(['curl.exe', '--ssl-revoke-best-effort', '-fsSL', '--retry', '2', '--connect-timeout', '15', '--max-time', '120', url, '-o', str(path)], check=True)
     content = path.read_bytes()
     git_hash = hashlib.sha1(f'blob {len(content)}\0'.encode() + content).hexdigest()

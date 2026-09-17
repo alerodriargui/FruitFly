@@ -6,6 +6,20 @@ Se utiliza el backend original PyTorch en CPU, Python 3.10 y los datos FlyWire v
 
 ## Probar
 
+### Explorar un entorno con cuerpo y física: NeuroMechFly
+
+Haz doble clic en **`explorar-mosca.cmd`** y deja abierta la consola del servidor. Abre `http://127.0.0.1:8766/habitat.html`. El cuerpo camina automáticamente por una ruta de laboratorio; puedes cambiar a control manual con **W/A/S/D**, detener la marcha con **Q**, pausar la física, modificar la fricción o girar y acercar la cámara. **Espacio** reinicia cuando el visor tiene el foco.
+
+Se ejecuta el modelo biomecánico oficial de [NeuroMechFly/FlyGym](https://neuromechfly.org/outreach/) y su controlador CPG con MuJoCo WebAssembly, instalado localmente. En esta configuración hay **67 articulaciones, 48 actuadores y un paso físico de 0,1 ms**. Se calculan gravedad, contactos, adhesión de patas y movimiento articulado. El contador de contactos y la distancia proceden del estado físico de MuJoCo. La reproducción empieza a 0,1× para observar los apoyos; el rendimiento conseguido aparece dentro del visor.
+
+**Esta prueba prioriza cuerpo y física. No conecta el cerebro de Eon, no aprende y no simula vuelo ni olfato.** La ruta automática es una regla diseñada a mano que envía dos señales al controlador locomotor original. Las alas son geometría del cuerpo. El terreno es una arena plana con postes, no un hábitat natural completo. El cambio de fricción multiplica las componentes tangenciales de las parejas de contacto explícitas y de las geometrías; ×1 conserva el original.
+
+Los 50 archivos oficiales (14,8 MB) se descargaron de la revisión de la web `0884af08981994543634563d95e9b1eb49945082` y se verificaron con sus hashes Git antes de adaptar la interfaz. `web/habitat/upstream-manifest.json` recoge revisión, tamaños y SHA-256 originales. `build_habitat.py` añade un punto de integración a `game.js`; las mallas, el XML MuJoCo, las tablas de marcha y el controlador CPG se conservan. `web/habitat/adapt.js` implementa navegación, cámara y controles. `install_habitat.py` restaura los archivos oficiales y `build_habitat.py` vuelve a aplicar la integración.
+
+Créditos: NeuroMechFly / NeLy-EPFL y colaboradores, modelo basado en microtomografía de una mosca adulta; MuJoCo / Google DeepMind; Three.js. Se incluyen las licencias Apache-2.0 y MIT en `web/habitat/`. Fuentes: [modelo y características](https://neuromechfly.org/), [implementación oficial del visor](https://github.com/NeLy-EPFL/flygym/tree/main/wasm/game).
+
+`check_habitat.py` comprueba movimiento físico, contactos, estado numérico, pausa, órdenes manuales, cambio de fricción y renderizado en Chrome. Evidencia: `results/habitat-validation.json` y `results/habitat.png`.
+
 ### Ver a la mosca aprender Flappy Bird
 
 Haz doble clic en **`jugar-flappy.cmd`**. Abre `http://127.0.0.1:8766/flappy.html` y comienza a entrenar en un hilo del navegador mientras ves volar al controlador actual. El servidor solo escucha en el equipo local y sirve la carpeta `web`. Mantén abierta su ventana de consola mientras lo usas; puedes detenerlo con Ctrl+C.
